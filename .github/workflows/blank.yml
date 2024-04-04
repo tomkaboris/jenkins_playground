@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "trigger-a-jenkins-job"
+  trigger-a-jenkins-job:
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - id: triggerjenkinsjob
+        uses: mickeygoussetorg/trigger-jenkins-job@v1
+        with:
+          jenkins-server:  "${{ secrets.JENKINS_SERVER }}" # URL of the jenkins server. ex: http://myjenkins.acme.com:8080
+          jenkins-job: "github_project" # The name of the jenkins job to run
+          jenkins-username: ${{ secrets.JENKINS_USERNAME }} # user name for accessing jenkins
+          jenkins-pat: ${{ secrets.JENKINS_PAT }} # personal Access token for accessing Jenkins
+          poll-time: 10 # how often (seconds) to poll the jenkins server for results
+          timeout-value: 600 # How long (seconds) to poll before timing out the action
+          verbose: true # true/false - turns on extra logging
