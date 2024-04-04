@@ -15,17 +15,16 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "launch_jenkins_job"
-  launch_jenkins_job:
-    name: trigger jenkins job
+  # This workflow contains a single job called "jenkins_on_windows"
+  jenkins_on_windows:
     runs-on: self-hosted
      # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      -
-        name: Trigger Jenkins Job
-        uses: sbitio/trigger-jenkins-job@master
-        with:
-          JENKINS_USER: ${{ secrets.JENKINS_USERNAME }}
-          JENKINS_TOKEN: ${{ secrets.JENKINS_PAT }}
-          JENKINS_HOST: ${{ secrets.JENKINS_SERVER }}
-          JENKINS_JOB: "github_project"
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Run Jenkins Job
+        shell: bash
+        run: |
+          java -jar jenkins-cli.jar -s ${{ secrets.JENKINS_SERVER }} -auth ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASSWORD }} build github_project -w
+          
