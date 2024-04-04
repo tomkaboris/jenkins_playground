@@ -1,15 +1,10 @@
 pipeline {
-  agent any
-  stages {
-    stage('version') {
-      steps {
-        sh 'python3 --version'
-      }
+    agent any
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo 'Hello world!'
+            }
+        }
     }
-    stage('hello') {
-      steps {
-        sh 'python3 pyscr.py'
-      }
-    }
-  }
 }
