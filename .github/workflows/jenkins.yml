@@ -26,5 +26,5 @@ jobs:
       - name: Run Jenkins Job
         shell: bash
         run: |
-          java -jar jenkins-cli.jar -s ${{ secrets.JENKINS_SERVER }} -auth ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASSWORD }} build ${{ secrets.JENKINS_PROJECT }} -w
+          java -jar ${{ secrets.JENKINS_FILE }} -s ${{ secrets.JENKINS_SERVER }} -auth ${{ secrets.JENKINS_USER }}:${{ secrets.JENKINS_PASSWORD }} build ${{ secrets.JENKINS_PROJECT }} -w
           
