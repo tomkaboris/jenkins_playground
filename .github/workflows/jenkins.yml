@@ -23,6 +23,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      # The GitHub runner is setup on Windows PC that running Jenkins container
       - name: Run Jenkins Job
         shell: cmd
         run: |
