@@ -21,7 +21,7 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: trigger single Job
+    - name: trigger-single-job
       uses: appleboy/jenkins-action@master
       with:
         url: "${{ secrets.JENKINS_SERVER }}" # URL of the jenkins server. ex: http://myjenkins.acme.com:8080
