@@ -21,13 +21,10 @@ jobs:
     runs-on: self-hosted
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - id: triggerjenkinsjob
-        uses: mickeygoussetorg/trigger-jenkins-job@v1
-        with:
-          jenkins-server:  "${{ secrets.JENKINS_SERVER }}" # URL of the jenkins server. ex: http://myjenkins.acme.com:8080
-          jenkins-job: "github_project" # The name of the jenkins job to run
-          jenkins-username: ${{ secrets.JENKINS_USERNAME }} # user name for accessing jenkins
-          jenkins-pat: ${{ secrets.JENKINS_PAT }} # personal Access token for accessing Jenkins
-          poll-time: 10 # how often (seconds) to poll the jenkins server for results
-          timeout-value: 600 # How long (seconds) to poll before timing out the action
-          verbose: true # true/false - turns on extra logging
+    - name: trigger single Job
+      uses: appleboy/jenkins-action@master
+      with:
+        url: "${{ secrets.JENKINS_SERVER }}" # URL of the jenkins server. ex: http://myjenkins.acme.com:8080
+        user: "${{ secrets.JENKINS_USERNAME }}" # user name for accessing jenkins
+        token: ${{ secrets.JENKINS_PAT }} # personal Access token for accessing Jenkins
+        job: "github_project"
