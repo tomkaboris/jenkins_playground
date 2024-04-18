@@ -9,7 +9,7 @@ pipeline {
                     changes = ''
                     
                     def repositories = [
-                        [name: 'jenkins', url: 'https://github.com/tomkaboris/jenkins_playground.git'],
+                        [name: 'terraform', url: 'https://github.com/tomkaboris/terraform_playground.git'],
                         [name: 'linux', url: 'https://github.com/tomkaboris/linux_playground.git']
                     ]
 
@@ -30,18 +30,26 @@ pipeline {
                             echo "Remote repository ${repo.name} has changes. Proceeding with the build."
                             // Remove if something exists on remote host
                             sh "ssh -i /home/remote-key btomka@172.30.67.102 'rm -rf /home/btomka/jenkins/*'"
-                            // Copy the code to the remote host using SSH
+                            // Copy all code to the remote host using SSH
                             sh 'scp -i /home/remote-key -r ./ btomka@172.30.67.102:/home/btomka/jenkins'
                             // Run the command on the remote server using the private key file
-                            echo repo.name
                             if (repo.name == 'linux') {
-                                sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/linux && ls -larth'"
+                                changes = 'linux'
                             } else if (repo.name == 'jenkins') {
-                                sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/jenkins && ls -larth'"
+                                changes = 'jenkins'
                             }
                             
                         } else {
                             echo "Remote repository ${repo.name} has no changes. Skipping the build."
+                        }
+                    }
+                }
+            }
+            stage('Perform changes') {
+                steps {
+                    script {
+                        if (changes != '') {
+                            sh 'cd /home/btomka/jenkins/KVM/Ubuntu/ && terraform init'
                         }
                     }
                 }
