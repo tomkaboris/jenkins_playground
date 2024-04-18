@@ -38,7 +38,6 @@ pipeline {
                             } else if (repo.name == 'terraform') {
                                 changes = 'terraform'
                             }
-                            echo changes
                         } else {
                             echo "Remote repository ${repo.name} has no changes. Skipping the build."
                         }
@@ -46,10 +45,9 @@ pipeline {
                 }
             }
         }
-        stage('Perform changes') {
+        stage('Build VM') {
             steps {
                 script {
-                    echo changes
                     if (changes != '') {
                         sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init'"
                     }
