@@ -38,7 +38,7 @@ pipeline {
                             } else if (repo.name == 'terraform') {
                                 changes = 'terraform'
                             }
-                            
+                            echo changes
                         } else {
                             echo "Remote repository ${repo.name} has no changes. Skipping the build."
                         }
