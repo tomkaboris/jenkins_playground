@@ -35,8 +35,8 @@ pipeline {
                             // Run the command on the remote server using the private key file
                             if (repo.name == 'linux') {
                                 changes = 'linux'
-                            } else if (repo.name == 'jenkins') {
-                                changes = 'jenkins'
+                            } else if (repo.name == 'terraform') {
+                                changes = 'terraform'
                             }
                             
                         } else {
@@ -49,8 +49,9 @@ pipeline {
         stage('Perform changes') {
             steps {
                 script {
+                    echo changes
                     if (changes != '') {
-                        sh 'cd /home/btomka/jenkins/KVM/Ubuntu/ && terraform init'
+                        sh 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init'
                     }
                 }
             }
