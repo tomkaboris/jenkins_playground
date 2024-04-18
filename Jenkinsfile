@@ -10,7 +10,7 @@ pipeline {
                     
                     def repositories = [
                         [name: 'terraform', url: 'https://github.com/tomkaboris/terraform_playground.git'],
-                        [name: 'linux', url: 'https://github.com/tomkaboris/linux_playground.git']
+                        [name: 'ansible', url: 'https://github.com/tomkaboris/ansible_playground.git']
                     ]
 
                     repositories.each { repo ->
@@ -31,7 +31,7 @@ pipeline {
                             // Remove if something exists on remote host
                             sh "ssh -i /home/remote-key btomka@172.30.67.102 'rm -rf /home/btomka/jenkins/*'"
                             // Copy code to the remote host using SSH
-                            sh 'scp -i /home/remote-key -r ./terraform ./linux btomka@172.30.67.102:/home/btomka/jenkins'
+                            sh 'scp -i /home/remote-key -r ./terraform ./ansible btomka@172.30.67.102:/home/btomka/jenkins'
                             // Run the command on the remote server using the private key file
                             if (repo.name == 'linux') {
                                 changes = 'linux'
