@@ -51,7 +51,7 @@ pipeline {
                 script {
                     echo changes
                     if (changes != '') {
-                        sh 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init'
+                        sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init'"
                     }
                 }
             }
