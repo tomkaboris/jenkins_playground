@@ -27,19 +27,19 @@ pipeline {
                         def commitsAhead = sh(script: "cd ${repo.name} && git rev-list --count origin/main..HEAD", returnStdout: true).trim().toInteger()
 
                         if (commitsBehind > 0 || commitsAhead > 0) {
-                            echo "Remote repository ${repo.name} has changes. Proceeding with the build."
+                            echo "Remote repository ${repo.name} has changes. Proceeding with the build VM."
                             // Remove if something exists on remote host
                             sh "ssh -i /home/remote-key btomka@172.30.67.102 'rm -rf /home/btomka/jenkins/*'"
                             // Copy code to the remote host using SSH
                             sh 'scp -i /home/remote-key -r ./terraform ./ansible btomka@172.30.67.102:/home/btomka/jenkins'
-                            // Run the command on the remote server using the private key file
+                            // Add value to the changes
                             if (repo.name == 'linux') {
                                 changes = 'linux'
                             } else if (repo.name == 'terraform') {
                                 changes = 'terraform'
                             }
                         } else {
-                            echo "Remote repository ${repo.name} has no changes. Skipping the build."
+                            echo "Remote repository ${repo.name} has no changes."
                         }
                     }
                 }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     if (changes != '') {
-                        sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init'"
+                        sh "ssh -i /home/remote-key btomka@172.30.67.102 'cd /home/btomka/jenkins/terraform/KVM/Ubuntu && terraform init && terraform apply -auto-approve'"
                     }
                 }
             }
