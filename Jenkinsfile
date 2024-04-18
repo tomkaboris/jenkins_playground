@@ -30,8 +30,8 @@ pipeline {
                             echo "Remote repository ${repo.name} has changes. Proceeding with the build."
                             // Remove if something exists on remote host
                             sh "ssh -i /home/remote-key btomka@172.30.67.102 'rm -rf /home/btomka/jenkins/*'"
-                            // Copy all code to the remote host using SSH
-                            sh 'scp -i /home/remote-key -r ./ btomka@172.30.67.102:/home/btomka/jenkins'
+                            // Copy code to the remote host using SSH
+                            sh 'scp -i /home/remote-key -r ./terraform ./linux btomka@172.30.67.102:/home/btomka/jenkins'
                             // Run the command on the remote server using the private key file
                             if (repo.name == 'linux') {
                                 changes = 'linux'
