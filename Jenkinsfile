@@ -45,12 +45,12 @@ pipeline {
                     }
                 }
             }
-            stage('Perform changes') {
-                steps {
-                    script {
-                        if (changes != '') {
-                            sh 'cd /home/btomka/jenkins/KVM/Ubuntu/ && terraform init'
-                        }
+        }
+        stage('Perform changes') {
+            steps {
+                script {
+                    if (changes != '') {
+                        sh 'cd /home/btomka/jenkins/KVM/Ubuntu/ && terraform init'
                     }
                 }
             }
