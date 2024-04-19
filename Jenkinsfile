@@ -45,7 +45,7 @@ pipeline {
                 }
             }
         }
-        stage('Build VM') {
+        stage('Build VM on remote host') {
             steps {
                 script {
                     if (changes != '') {
