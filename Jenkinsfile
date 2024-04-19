@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Remote Changes') {
+        stage('Check Remote Changes and Clone repository') {
             steps {
                 script {
                     
