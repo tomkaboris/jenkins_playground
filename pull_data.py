@@ -4,9 +4,9 @@ import time
 import os
 
 # Function to log in and get session ID
-def login(api_url, username, password):
+def login(api_ip, username, password):
     try:
-        login_url = f"{api_url}/session"
+        login_url = f"https://{api_ip}/rest/session"
         payload = {
             "user": username,
             "password": password
@@ -25,9 +25,9 @@ def login(api_url, username, password):
         return None
 
 # Function to log out
-def logout(api_url, session_id):
+def logout(api_ip, session_id):
     try:
-        logout_url = f"{api_url}/session"
+        logout_url = f"https://{api_ip}/rest/session"
         headers = {
             "accept": "application/json",
             "Cookie": f"session_id={session_id}"
@@ -39,9 +39,9 @@ def logout(api_url, session_id):
         print(f"Logout failed: {e}")
 
 # Function to grab data
-def grab_data(api_url, session_id, interval, duration, ids):
+def grab_data(api_ip, session_id, interval, duration, ids):
     try:
-        kpi_url = f"{api_url}/kpi"
+        kpi_url = f"https://{api_ip}/rest/kpi"
         payload = {
             "ids": ids
         }
@@ -70,7 +70,7 @@ def grab_data(api_url, session_id, interval, duration, ids):
 
 if __name__ == "__main__":
     # Get parameters from environment variables
-    API_URL = os.getenv("API_URL", "https://10.80.0.100/rest")
+    API_IP = os.getenv("API_IP", "10.80.0.100")
     USERNAME = os.getenv("API_USERNAME", "admin")
     PASSWORD = os.getenv("API_PASSWORD", "admin")
     INTERVAL = int(os.getenv("API_INTERVAL", 5))
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
     
     try:
-        session_id = login(API_URL, USERNAME, PASSWORD)
-        grab_data(API_URL, session_id, INTERVAL, DURATION, IDS)
+        session_id = login(API_IP, USERNAME, PASSWORD)
+        grab_data(API_IP, session_id, INTERVAL, DURATION, IDS)
     finally:
-        logout(API_URL, session_id)
+        logout(API_IP, session_id)
