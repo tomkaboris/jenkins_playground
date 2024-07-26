@@ -70,7 +70,6 @@ def grab_data(api_ip, session_id, interval, duration, ids):
         
         end_time = time.time() + duration
         all_data = []
-        i = 0
         while time.time() < end_time:
             response = requests.post(kpi_url, headers=headers, json=payload, verify=False)
             response.raise_for_status()
@@ -82,7 +81,6 @@ def grab_data(api_ip, session_id, interval, duration, ids):
                 json.dump(all_data, json_file, indent=4)
             
             time.sleep(interval)
-            print(i+1)
 
     except requests.exceptions.HTTPError as errh:
         print("HTTP Error:", errh)
