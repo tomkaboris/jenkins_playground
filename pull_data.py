@@ -21,17 +21,8 @@ def login(api_ip, username, password):
         session_id = response.cookies.get('session_id')
         return session_id
     
-    except requests.exceptions.HTTPError as errh:
-        print("HTTP Error:", errh)
-        return None
-    except requests.exceptions.ConnectionError as errc:
-        print("Error Connecting:", errc)
-        return None
-    except requests.exceptions.Timeout as errt:
-        print("Timeout Error:", errt)
-        return None
-    except requests.exceptions.RequestException as err:
-        print("OOps: Something Else", err)
+    except requests.RequestException as e:
+        print(f"Login failed: {e}")
         return None
 
 # Function to log out
@@ -46,14 +37,8 @@ def logout(api_ip, session_id):
         response = requests.delete(logout_url, headers=headers, verify=False)
         response.raise_for_status()
 
-    except requests.exceptions.HTTPError as errh:
-        print("HTTP Error:", errh)
-    except requests.exceptions.ConnectionError as errc:
-        print("Error Connecting:", errc)
-    except requests.exceptions.Timeout as errt:
-        print("Timeout Error:", errt)
-    except requests.exceptions.RequestException as err:
-        print("OOps: Something Else", err)
+    except requests.RequestException as e:
+        print(f"Logout failed: {e}")
 
 # Function to grab data
 def grab_data(api_ip, session_id, interval, duration):
@@ -82,14 +67,8 @@ def grab_data(api_ip, session_id, interval, duration):
             
             time.sleep(interval)
 
-    except requests.exceptions.HTTPError as errh:
-        print("HTTP Error:", errh)
-    except requests.exceptions.ConnectionError as errc:
-        print("Error Connecting:", errc)
-    except requests.exceptions.Timeout as errt:
-        print("Timeout Error:", errt)
-    except requests.exceptions.RequestException as err:
-        print("OOps: Something Else", err)
+    except requests.RequestException as e:
+        print(f"Failed to fetch data: {e}")
 
 if __name__ == "__main__":
     # Get parameters from environment variables
@@ -98,7 +77,6 @@ if __name__ == "__main__":
     PASSWORD = os.getenv("API_PASSWORD", "admin")
     INTERVAL = int(os.getenv("API_INTERVAL", 5))
     DURATION = int(os.getenv("API_DURATION", 30))
-    #IDS = os.getenv("API_IDS", ["SYSTEM_NAME", "MEM_STATS"])
     
     # Suppress SSL warnings for self-signed certificates
     requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
