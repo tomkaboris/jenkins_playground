@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'API_URL', defaultValue: 'https://10.80.0.100/rest', description: 'API URL')
+        string(name: 'API_IP', defaultValue: '10.80.0.100', description: 'API IP')
         string(name: 'API_USERNAME', defaultValue: 'admin', description: 'API Username')
         password(name: 'API_PASSWORD', defaultValue: 'admin', description: 'API Password')
         string(name: 'API_INTERVAL', defaultValue: '5', description: 'Interval in seconds')
@@ -11,7 +11,7 @@ pipeline {
     }
 
     environment {
-        API_URL = "${params.API_URL}"
+        API_IP = "${params.API_IP}"
         USERNAME = "${params.API_USERNAME}"
         PASSWORD = "${params.API_PASSWORD}"
         INTERVAL = "${params.API_INTERVAL}"
