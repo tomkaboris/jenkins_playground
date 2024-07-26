@@ -7,7 +7,6 @@ pipeline {
         password(name: 'API_PASSWORD', defaultValue: 'admin', description: 'API Password')
         string(name: 'API_INTERVAL', defaultValue: '5', description: 'Interval in seconds')
         string(name: 'API_DURATION', defaultValue: '30', description: 'Duration in seconds')
-        string(name: 'API_IDS', defaultValue: '["SYSTEM_NAME", "MEM_STATS"]', description: 'Data for metrics')
     }
 
     environment {
@@ -16,7 +15,6 @@ pipeline {
         PASSWORD = "${params.API_PASSWORD}"
         INTERVAL = "${params.API_INTERVAL}"
         DURATION = "${params.API_DURATION}"
-        OUTPUT_FILE = "${params.API_OUTPUT_FILE}"
     }
 
     stages {
@@ -28,6 +26,11 @@ pipeline {
         stage('Run Script') {
             steps {
                 sh 'python3 pull_data.py'
+            }
+        }
+        stage('Show results') {
+            steps {
+                sh 'cat api_data.json'
             }
         }
     }
