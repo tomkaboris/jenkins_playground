@@ -20,9 +20,17 @@ def login(api_ip, username, password):
         response.raise_for_status()
         session_id = response.cookies.get('session_id')
         return session_id
-    except requests.RequestException as e:
-        print(f"Login failed: {e}")
+    except requests.RequestException as errh:
+        print(f"Login failed: {errh}")
         return None
+    except requests.exceptions.HTTPError as errh:
+        print("HTTP Error:", errh)
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+    except requests.exceptions.RequestException as err:
+        print("OOps: Something Else", err)
 
 # Function to log out
 def logout(api_ip, session_id):
@@ -35,8 +43,17 @@ def logout(api_ip, session_id):
         
         response = requests.delete(logout_url, headers=headers, verify=False)
         response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"Logout failed: {e}")
+
+    except requests.RequestException as errh:
+        print(f"Logout failed: {errh}")
+    except requests.exceptions.HTTPError as errh:
+        print("HTTP Error:", errh)
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+    except requests.exceptions.RequestException as err:
+        print("OOps: Something Else", err)
 
 # Function to grab data
 def grab_data(api_ip, session_id, interval, duration, ids):
@@ -65,8 +82,16 @@ def grab_data(api_ip, session_id, interval, duration, ids):
                 json.dump(all_data, json_file, indent=4)
             
             time.sleep(interval)
-    except requests.RequestException as e:
-        print(f"Failed to fetch data: {e}")
+    except requests.RequestException as errh:
+        print(f"Failed to fetch data: {errh}")
+    except requests.exceptions.HTTPError as errh:
+        print("HTTP Error:", errh)
+    except requests.exceptions.ConnectionError as errc:
+        print("Error Connecting:", errc)
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+    except requests.exceptions.RequestException as err:
+        print("OOps: Something Else", err)
 
 if __name__ == "__main__":
     # Get parameters from environment variables
