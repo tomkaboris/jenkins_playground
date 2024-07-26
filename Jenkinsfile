@@ -20,6 +20,10 @@ pipeline {
     }
 
     stages {
+        stage('Python version') {
+            steps {
+                sh 'python3 --version'
+            }
         stage('Run Script') {
             steps {
                 sh 'python pull_data.py'
