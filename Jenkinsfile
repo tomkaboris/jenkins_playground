@@ -6,7 +6,7 @@ pipeline {
         string(name: 'API_USERNAME', defaultValue: 'admin', description: 'API Username')
         password(name: 'API_PASSWORD', defaultValue: 'admin', description: 'API Password')
         string(name: 'API_INTERVAL', defaultValue: '5', description: 'Interval in seconds')
-        string(name: 'API_DURATION', defaultValue: '600', description: 'Duration in seconds')
+        string(name: 'API_DURATION', defaultValue: '30', description: 'Duration in seconds')
         string(name: 'API_IDS', defaultValue: '["SYSTEM_NAME", "MEM_STATS"]', description: 'Data for metrics')
     }
 
